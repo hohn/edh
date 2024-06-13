@@ -1,12 +1,9 @@
-
 ###
 import pandas as pd
 import tkinter as tk
 
 ### Datei Excel einlesen
-df = pd.read_excel("/Users/zehrayilmaz/Desktop/Preisliste.xlsx")
-
-
+df = pd.read_excel("./Preisliste 2.xlsx")
 
 ### Importieren der Preise
  
@@ -19,24 +16,20 @@ Postkarteppp = df.iloc[12,1]
 Postkarte = df.iloc[12,2]
 Email = df.iloc[12,2]
 
-
-
 ### Ausgabe der Auswahlen/Eingaben
 
 # Unterhaltung Dropdown Ausgabe 
-
 def on_unterhaltung_select(*args):
-    selected = selected_option.get()
+    selected = unterhaltung_selected_option.get()
     if selected == "DJ":
-        preis_label.config(text=f"Preis für DJ: {DJ} €")
+        unterhaltung_preis_label.config(text=f"Preis für DJ: {DJ} €")
     elif selected == "Barkeeper + Bar":
-        preis_label.config(text=f"Preis für Barkeeper + Bar: {Barkeeper} €")
+        unterhaltung_preis_label.config(text=f"Preis für Barkeeper + Bar: {Barkeeper} €")
     else:
-        preis_label.config(text="")
+        unterhaltung_preis_label.config(text="")
         
 
 # Einladungen Dropdown Ausgabe 
-
 def on_einladung_select(*args):
     selected = selected_einladung_option.get()
     if selected == "Ja, ich möchte eine Online Einladung als Email bestellen":
@@ -60,8 +53,9 @@ def berechne_Gesamtpreis(*args):
         anzahl = int(einladung_anzahl_entry.get())
         einladung_gesamtpreis = anzahl * Postkarteppp + Postkarte
         einladung_gesamtpreis_label.config(text=f"Gesamtpreis: {einladung_gesamtpreis} €")
+        print("XX: anzahl, einladung_gesamtpreis:", anzahl, einladung_gesamtpreis, einladung_gesamtpreis_label)
     except ValueError:
-        einladung_gesamtpreis_label.config(text="")
+        einladung_gesamtpreis_label.config(text="!!Fehler in berechne_Gesamtpreis!!")
 
 
 # Budget für die Gestaltung Ausgabe 
@@ -70,36 +64,33 @@ def zeig_budget(*args):
     budget = design_limit_entry.get()
     budget_label.config(text=f"Budget für die Gestaltung: {budget} €")
 
+
+
 root = tk.Tk()
 root.title("Dropdown")
-
-
 
 ### Unterhaltung 
 
 # Art der Unterhaltung Dropdown Optionen
-
 unterhaltung_frame = tk.Frame(root)
 unterhaltung_frame.pack(pady=5)
 
 unterhaltung_label = tk.Label(unterhaltung_frame, text="Wählen Sie die Art der Unterhaltung:")
 unterhaltung_label.pack()
 
-selected_option = tk.StringVar()
-selected_option.trace("w", on_unterhaltung_select)
+unterhaltung_selected_option = tk.StringVar()
+unterhaltung_selected_option.trace("w", on_unterhaltung_select)
 options = ["DJ", "Barkeeper + Bar", "Keine"]
-unterhaltung_dropdown = tk.OptionMenu(unterhaltung_frame, selected_option, *options)
+unterhaltung_dropdown = tk.OptionMenu(unterhaltung_frame, unterhaltung_selected_option, *options)
 unterhaltung_dropdown.pack()
 
-preis_label = tk.Label(unterhaltung_frame, text="")
-preis_label.pack()
-
+unterhaltung_preis_label = tk.Label(unterhaltung_frame, text="")
+unterhaltung_preis_label.pack()
 
 
 ### Einladungen
 
 # Art der Einladungen Dropdown Optionen
-
 einladung_frame = tk.Frame(root)
 einladung_frame.pack(pady=5)
 
@@ -108,12 +99,13 @@ einladung_label.pack()
 
 selected_einladung_option = tk.StringVar()
 selected_einladung_option.trace("w", on_einladung_select)
-einladung_options = ["Ja, ich möchte eine Online Einladung als Email bestellen", "Ja, ich möchte Einladungen in gedruckter Form als Postkarte bestellen", "Nein, ich möchte keine Einladungen bestellen"]
-einladung_dropdown = tk.OptionMenu(einladung_frame, selected_einladung_option, *einladung_options)
+options = ["Ja, ich möchte eine Online Einladung als Email bestellen", "Ja, ich möchte Einladungen in gedruckter Form als Postkarte bestellen", "Nein, ich möchte keine Einladungen bestellen"]
+einladung_dropdown = tk.OptionMenu(einladung_frame, selected_einladung_option, *options)
 einladung_dropdown.pack()
 
 einladung_preis_label = tk.Label(einladung_frame, text="")
 einladung_preis_label.pack()
+
 
 # Eingabefeld um die Einladungen zu beschränken (nur für gedruckte Postkarten)
 einladung_anzahl_label = tk.Label(einladung_frame, text="Wie viele Einladungen möchten Sie bestellen?")

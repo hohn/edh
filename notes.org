@@ -1,0 +1,14 @@
+ 7043  type pip
+ 7044  python3 -m venv venv
+ 7045  ls
+ 7046  . venv/bin/activate
+ 7047  pip install pandas
+ 7048  ls
+ 7049  pip install pandas ipython
+ 7050  which ipython
+ 7051  history |tail
+ 7052  history |tail >> notes.org
+ 7055  pip install openpyxl
+ 7056  ipython
+ 7057  history |tail -4
+ 7058  history |tail -4 >> notes.org 
